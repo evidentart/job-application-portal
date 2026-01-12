@@ -1,0 +1,38 @@
+name: Deploy Frontend to S3 + CloudFront
+
+on:
+  push:
+    branches: [ main ]  # deploy on pushes to main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write       # Required for OIDC authentication
+      contents: read        # Needed to checkout repository
+
+    steps:
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Configure AWS credentials via OIDC (no long-lived keys needed)
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam:905418230693:role/GitHub-S3-Deployer-Role
+          aws-region: us-east-2
+
+      # Sync local frontend folder to S3 bucket
+      - name: Deploy to S3
+        run: |
+          aws s3 sync ./frontend s3://application-ui-app-afa --delete \
+            --acl public-read \
+            --cache-control "max-age=0, no-cache, no-store, must-revalidate"
+
+      # Invalidate CloudFront cache so updates appear immediately
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id E36KAGJ6TDMRGW \
+            --paths "/*"

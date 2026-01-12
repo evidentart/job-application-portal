@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Job Application 1</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      padding: 40px;
+    }
+    form {
+      max-width: 500px;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      margin: auto;
+    }
+    input, button {
+      width: 100%;
+      margin-top: 12px;
+      padding: 12px;
+      font-size: 15px;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1e40af;
+    }
+    .message {
+      margin-top: 15px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<form id="applicationForm">
+  <h2>Apply for a Job</h2>
+
+  <input type="text" id="name" placeholder="Full Name" required />
+  <input type="email" id="email" placeholder="Email" required />
+  <input type="text" id="position" placeholder="Position Applied For" required />
+  <input type="file" id="resume" accept="application/pdf" />
+
+  <button type="submit">Submit Application</button>
+  <div class="message" id="responseMessage"></div>
+</form>
+
+<script>
+  const API_URL = "REPLACE_WITH_YOUR_API_ENDPOINT";
+
+  document.getElementById("applicationForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const position = document.getElementById("position").value;
+    const file = document.getElementById("resume").files[0];
+
+    let resume_base64 = null;
+
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        alert("Resume must be under 2MB");
+        return;
+      }
+
+      resume_base64 = await toBase64(file);
+    }
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, position, resume_base64 })
+      });
+
+      const data = await res.json();
+      document.getElementById("responseMessage").innerText = data.message;
+    } catch (err) {
+      document.getElementById("responseMessage").innerText = "Submission failed.";
+    }
+  });
+
+  function toBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+</script>
+
+</body>
+</html>
