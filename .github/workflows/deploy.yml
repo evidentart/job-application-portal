@@ -16,7 +16,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Configure AWS credentials via OIDC (temporary credentials, no long-lived keys)
+      # Configure AWS credentials via OIDC (temporary credentials)
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@main
         with:
@@ -28,10 +28,10 @@ jobs:
       - name: Test AWS credentials
         run: aws sts get-caller-identity
 
-      # Sync local frontend folder to S3 bucket
+      # Sync frontend folder to S3 bucket
       - name: Deploy to S3
         run: |
-          aws s3 sync ./frontend s3://application-ui-app-afa --delete \
+          aws s3 sync ./job-application-frontend/job-application-ui s3://application-ui-app-afa --delete \
             --acl public-read \
             --cache-control "max-age=0, no-cache, no-store, must-revalidate"
 
