@@ -26,12 +26,12 @@ jobs:
       # Replace placeholder with actual API URL
       - name: Inject API URL
         run: |
-          sed -i "s|REPLACE_WITH_API_ENDPOINT|${{ secrets.API_URL }}|g" ./job-application-ui/index.html
+          sed -i "s|REPLACE_WITH_API_ENDPOINT|${{ secrets.API_URL }}|g" ./job-application-frontend/index.html
 
       # Sync frontend folder to S3
       - name: Deploy to S3
         run: |
-          aws s3 sync ./job-application-ui s3://application-ui-app-afa --delete \
+          aws s3 sync ./job-application-frontend s3://application-ui-app-afa --delete \
             --cache-control "max-age=0, no-cache, no-store, must-revalidate"
 
       # Invalidate CloudFront cache
