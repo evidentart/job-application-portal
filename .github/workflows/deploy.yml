@@ -18,7 +18,7 @@ jobs:
 
       # Configure AWS credentials via OIDC (no long-lived keys needed)
       - name: Configure AWS credentials via OIDC
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@main
         with:
           role-to-assume: arn:aws:iam:905418230693:role/GitHub-S3-Deployer-Role
           aws-region: us-east-2
