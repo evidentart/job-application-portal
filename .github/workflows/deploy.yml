@@ -32,7 +32,6 @@ jobs:
       - name: Deploy to S3
         run: |
           aws s3 sync ./job-application-ui s3://application-ui-app-afa --delete \
-            --acl public-read \
             --cache-control "max-age=0, no-cache, no-store, must-revalidate"
 
       # Invalidate CloudFront cache so updates appear immediately
