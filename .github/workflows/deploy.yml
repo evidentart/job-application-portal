@@ -8,21 +8,25 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write       # Required for OIDC authentication
-      contents: read        # Needed to checkout repository
+      id-token: write       # required for OIDC authentication
+      contents: read        # needed to checkout repository
 
     steps:
       # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Configure AWS credentials via OIDC (no long-lived keys needed)
+      # Configure AWS credentials via OIDC (temporary credentials, no long-lived keys)
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@main
         with:
-          role-to-assume: arn:aws:iam:905418230693:role/GitHub-S3-Deployer-Role
+          role-to-assume: arn:aws:iam::905418230693:role/GitHub-S3-Deployer-Role
           aws-region: us-east-2
           unset-current-credentials: true
+
+      # Debug: confirm role was assumed successfully
+      - name: Test AWS credentials
+        run: aws sts get-caller-identity
 
       # Sync local frontend folder to S3 bucket
       - name: Deploy to S3
