@@ -12,29 +12,29 @@ jobs:
       contents: read        # needed to checkout repository
 
     steps:
-      # Checkout the repository
+      # Checkout the repo
       - name: Checkout repository
         uses: actions/checkout@v3
 
       # Configure AWS credentials via OIDC
       - name: Configure AWS credentials via OIDC
-        uses: aws-actions/configure-aws-credentials@main
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: arn:aws:iam::905418230693:role/GitHub-S3-Deployer-Role
           aws-region: us-east-2
-          unset-current-credentials: true
 
-      # Debug: confirm role was assumed successfully
-      - name: Test AWS credentials
-        run: aws sts get-caller-identity
+      # Replace placeholder with actual API URL
+      - name: Inject API URL
+        run: |
+          sed -i "s|REPLACE_WITH_API_ENDPOINT|${{ secrets.API_URL }}|g" ./job-application-ui/index.html
 
-      # Sync frontend folder to S3 bucket
+      # Sync frontend folder to S3
       - name: Deploy to S3
         run: |
           aws s3 sync ./job-application-ui s3://application-ui-app-afa --delete \
             --cache-control "max-age=0, no-cache, no-store, must-revalidate"
 
-      # Invalidate CloudFront cache so updates appear immediately
+      # Invalidate CloudFront cache
       - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \

@@ -2,39 +2,95 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Job Application 1</title>
+  <title>Job Application</title>
   <style>
+    /* General Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f1f5f9;
-      padding: 40px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+      padding: 20px;
     }
+
     form {
+      background: #ffffff;
+      padding: 35px 30px;
+      border-radius: 15px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
       max-width: 500px;
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      margin: auto;
-    }
-    input, button {
       width: 100%;
-      margin-top: 12px;
-      padding: 12px;
-      font-size: 15px;
+      transition: transform 0.2s ease;
     }
+
+    form:hover {
+      transform: translateY(-3px);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #102a43;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="file"],
+    button {
+      width: 100%;
+      padding: 14px 12px;
+      margin-bottom: 18px;
+      border-radius: 8px;
+      font-size: 16px;
+      border: 1px solid #cbd5e1;
+      transition: all 0.2s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="file"]:focus {
+      border-color: #2563eb;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+
     button {
       background: #2563eb;
       color: white;
       border: none;
       cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.2s ease;
     }
+
     button:hover {
       background: #1e40af;
+      transform: translateY(-2px);
     }
+
     .message {
-      margin-top: 15px;
       text-align: center;
+      margin-top: 15px;
+      font-weight: 500;
+      color: #102a43;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+      }
+
+      form {
+        padding: 25px 20px;
+      }
     }
   </style>
 </head>
@@ -53,7 +109,7 @@
 </form>
 
 <script>
-  const API_URL = "REPLACE_WITH_YOUR_APIENDPOINT";
+  const API_URL = "REPLACE_WITH_API_ENDPOINT";
 
   document.getElementById("applicationForm").addEventListener("submit", async (e) => {
     e.preventDefault();
