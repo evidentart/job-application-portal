@@ -21,7 +21,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: arn:aws:iam:905418230693:role/GitHub-S3-Deployer-Role
-          aws-region: us-east-2
+          aws-region: us-east-1
 
       # Sync local frontend folder to S3 bucket
       - name: Deploy to S3
