@@ -12,7 +12,7 @@ jobs:
       contents: read        # needed to checkout repository
 
     steps:
-      # Checkout the repo
+      # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -23,18 +23,18 @@ jobs:
           role-to-assume: arn:aws:iam::905418230693:role/GitHub-S3-Deployer-Role
           aws-region: us-east-2
 
-      # Replace placeholder with actual API URL
+      # Replace placeholder in index.html with the API endpoint from secrets
       - name: Inject API URL
         run: |
           sed -i "s|REPLACE_WITH_API_ENDPOINT|${{ secrets.API_URL }}|g" ./job-application-frontend/index.html
 
-      # Sync frontend folder to S3
-      - name: Deploy to S3
+      # Deploy frontend to S3 bucket (static hosting)
+      - name: Deploy to S3 (frontend)
         run: |
           aws s3 sync ./job-application-frontend s3://application-ui-app-afa --delete \
             --cache-control "max-age=0, no-cache, no-store, must-revalidate"
 
-      # Invalidate CloudFront cache
+      # Invalidate CloudFront cache so the updated site is visible
       - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \

@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <title>Job Application</title>
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAGAAAAAAAAAAAAAAAAAAAAAAAAAAA////AAAAAAA==" />
+
   <style>
     /* General Reset */
     * {
@@ -17,28 +20,30 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+      background: linear-gradient(135deg, #e0f2fe, #dbeafe);
       padding: 20px;
     }
 
     form {
       background: #ffffff;
-      padding: 35px 30px;
-      border-radius: 15px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.1);
       max-width: 500px;
       width: 100%;
-      transition: transform 0.2s ease;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     form:hover {
-      transform: translateY(-3px);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
     }
 
     h2 {
       text-align: center;
-      margin-bottom: 25px;
-      color: #102a43;
+      margin-bottom: 30px;
+      color: #1e3a8a;
+      font-size: 28px;
     }
 
     input[type="text"],
@@ -46,12 +51,12 @@
     input[type="file"],
     button {
       width: 100%;
-      padding: 14px 12px;
-      margin-bottom: 18px;
-      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      border-radius: 10px;
       font-size: 16px;
       border: 1px solid #cbd5e1;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
     }
 
     input[type="text"]:focus,
@@ -78,9 +83,9 @@
 
     .message {
       text-align: center;
-      margin-top: 15px;
+      margin-top: 18px;
       font-weight: 500;
-      color: #102a43;
+      color: #1e3a8a;
     }
 
     @media (max-width: 600px) {
@@ -89,7 +94,7 @@
       }
 
       form {
-        padding: 25px 20px;
+        padding: 30px 20px;
       }
     }
   </style>
@@ -109,7 +114,8 @@
 </form>
 
 <script>
-  const API_URL = "REPLACE_WITH_API_ENDPOINT";
+  // Use environment variable injected via GitHub Actions
+  const API_URL = "REPLACE_WITH_API_ENDPOINT"; // GitHub Actions will replace this
 
   document.getElementById("applicationForm").addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -126,7 +132,6 @@
         alert("Resume must be under 2MB");
         return;
       }
-
       resume_base64 = await toBase64(file);
     }
 
