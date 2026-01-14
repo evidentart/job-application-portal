@@ -104,18 +104,18 @@
 <form id="applicationForm">
   <h2>Apply for a Job</h2>
 
-  <input type="text" id="name" placeholder="Full Name" required />
-  <input type="email" id="email" placeholder="Email" required />
-  <input type="text" id="position" placeholder="Position Applied For" required />
-  <input type="file" id="resume" accept="application/pdf" />
+  <input type="text" id="name" name="name" placeholder="Full Name" required autocomplete="name" />
+  <input type="email" id="email" name="email" placeholder="Email" required autocomplete="email" />
+  <input type="text" id="position" name="position" placeholder="Position Applied For" required autocomplete="organization-title" />
+  <input type="file" id="resume" name="resume" accept="application/pdf" />
 
   <button type="submit">Submit Application</button>
   <div class="message" id="responseMessage"></div>
 </form>
 
 <script>
-  // Use environment variable injected via GitHub Actions
-  const API_URL = "REPLACE_WITH_API_ENDPOINT"; // GitHub Actions will replace this
+  // API URL will be replaced by GitHub Actions at deploy time
+  const API_URL = "REPLACE_WITH_API_ENDPOINT";
 
   document.getElementById("applicationForm").addEventListener("submit", async (e) => {
     e.preventDefault();
