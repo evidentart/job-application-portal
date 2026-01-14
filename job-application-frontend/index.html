@@ -135,31 +135,30 @@
       resume_base64 = await toBase64(file);
     }
 
-    try {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, position, resume_base64 })
-      });
+try {
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, email, position, resume_base64 })
+  });
 
-      // Log status code for debugging
-      console.log("Response status:", res.status);
+  console.log("Response status:", res.status);
 
-      if (!res.ok) {
-        // Server returned an error
-        const errorData = await res.json().catch(() => ({}));
-        console.error("Server error response:", errorData);
-        document.getElementById("responseMessage").innerText = errorData.message || "Submission failed.";
-        return;
-      }
+  const resData = await res.json(); // parse the fetch response
+  let body;
+  try {
+    body = JSON.parse(resData.body); // parse Lambda's body string
+  } catch {
+    body = { message: "Unknown response" };
+  }
 
-      const data = await res.json();
-      document.getElementById("responseMessage").innerText = data.message;
+  document.getElementById("responseMessage").innerText = body.message;
 
-    } catch (err) {
-      console.error("Network or frontend error:", err);
-      document.getElementById("responseMessage").innerText = "Submission failed.";
-    }
+} catch (err) {
+  console.error("Network or frontend error:", err);
+  document.getElementById("responseMessage").innerText = "Submission failed.";
+}
+
   });
 
   function toBase64(file) {
