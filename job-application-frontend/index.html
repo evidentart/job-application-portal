@@ -142,20 +142,16 @@ try {
     body: JSON.stringify({ name, email, position, resume_base64 })
   });
 
-  console.log("Response status:", res.status);
+  // Lambda Proxy Integration returns a JSON object where 'body' is a string
+  const resData = await res.json(); 
+  
+  // Robust parsing: If 'body' is already an object, use it; if it's a string, parse it.
+  const body = typeof resData.body === 'string' ? JSON.parse(resData.body) : resData;
 
-  const resData = await res.json(); // parse the fetch response
-  let body;
-  try {
-    body = JSON.parse(resData.body); // parse Lambda's body string
-  } catch {
-    body = { message: "Unknown response" };
-  }
-
-  document.getElementById("responseMessage").innerText = body.message;
+  document.getElementById("responseMessage").innerText = body.message || "Success";
 
 } catch (err) {
-  console.error("Network or frontend error:", err);
+  console.error("Network error:", err);
   document.getElementById("responseMessage").innerText = "Submission failed.";
 }
 
