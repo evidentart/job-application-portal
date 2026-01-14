@@ -86,6 +86,7 @@
       margin-top: 18px;
       font-weight: 500;
       color: #1e3a8a;
+      word-break: break-word;
     }
 
     @media (max-width: 600px) {
@@ -117,44 +118,59 @@
   // API URL will be replaced by GitHub Actions at deploy time
   const API_URL = "REPLACE_WITH_API_ENDPOINT";
 
-  document.getElementById("applicationForm").addEventListener("submit", async (e) => {
+  const form = document.getElementById("applicationForm");
+  const messageEl = document.getElementById("responseMessage");
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const position = document.getElementById("position").value;
+    // Get form values
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const position = document.getElementById("position").value.trim();
     const file = document.getElementById("resume").files[0];
 
     let resume_base64 = null;
 
-    if (file) {
-      if (file.size > 2 * 1024 * 1024) {
-        alert("Resume must be under 2MB");
+    try {
+      if (file) {
+        if (file.size > 2 * 1024 * 1024) {
+          alert("Resume must be under 2MB");
+          return;
+        }
+        resume_base64 = await toBase64(file);
+      }
+
+      // Debug log
+      console.log("Submitting application:", { name, email, position, resume_base64 });
+
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, position, resume_base64 })
+      });
+
+      console.log("Fetch response status:", res.status, res.statusText);
+
+      let resData;
+      try {
+        resData = await res.json();
+      } catch (parseErr) {
+        console.error("JSON parse error:", parseErr);
+        messageEl.innerText = "Invalid response from server";
         return;
       }
-      resume_base64 = await toBase64(file);
+
+      // Lambda Proxy Integration may wrap body as string
+      const body = typeof resData.body === 'string' ? JSON.parse(resData.body) : resData;
+      console.log("Response body:", body);
+
+      messageEl.innerText = body.message || "Success";
+
+    } catch (err) {
+      console.error("Network or submission error:", err);
+      messageEl.innerText = "Submission failed. Check console for details.";
     }
-
-try {
-  const res = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, email, position, resume_base64 })
-  });
-
-  // Lambda Proxy Integration returns a JSON object where 'body' is a string
-  const resData = await res.json(); 
-  
-  // Robust parsing: If 'body' is already an object, use it; if it's a string, parse it.
-  const body = typeof resData.body === 'string' ? JSON.parse(resData.body) : resData;
-
-  document.getElementById("responseMessage").innerText = body.message || "Success";
-
-} catch (err) {
-  console.error("Network error:", err);
-  document.getElementById("responseMessage").innerText = "Submission failed.";
-}
-
   });
 
   function toBase64(file) {
