@@ -142,9 +142,22 @@
         body: JSON.stringify({ name, email, position, resume_base64 })
       });
 
+      // Log status code for debugging
+      console.log("Response status:", res.status);
+
+      if (!res.ok) {
+        // Server returned an error
+        const errorData = await res.json().catch(() => ({}));
+        console.error("Server error response:", errorData);
+        document.getElementById("responseMessage").innerText = errorData.message || "Submission failed.";
+        return;
+      }
+
       const data = await res.json();
       document.getElementById("responseMessage").innerText = data.message;
+
     } catch (err) {
+      console.error("Network or frontend error:", err);
       document.getElementById("responseMessage").innerText = "Submission failed.";
     }
   });
@@ -158,6 +171,5 @@
     });
   }
 </script>
-
 </body>
 </html>
