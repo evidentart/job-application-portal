@@ -1,15 +1,16 @@
 # Job Application Portal (AWS Serverless)
 
-A simple full-stack serverless application for submitting job applications, built with **Python**, **AWS Lambda**, **API Gateway**, **CloudFront**, **S3**, **DynamoDB**, and **SES**.
+A simple full-stack serverless application with a **frontend form** and backend for submitting job applications, built with **Python**, **AWS Lambda**, **API Gateway**, **CloudFront**, **S3**, **DynamoDB**, and **SES**.
 
-This project is designed as an **entry-level full-stack serverless portfolio project**, focusing on clean code, validation, and real-world AWS patterns.
+This project is designed as an **entry-level full-stack serverless portfolio project**, focusing on clean code, input validation, and real-world AWS patterns.
 
 ---
 
 ## ✨ Features
 
+* Responsive frontend form for submitting applications
 * Submit job applications via REST API
-* Resume upload (PDF only) using Base64 encoding
+* Resume upload (PDF only, ≤2MB) using Base64 encoding
 * Secure resume storage in S3 with presigned URLs
 * Application data stored in DynamoDB
 * Email notifications to HR/admin
@@ -92,9 +93,17 @@ ADMIN_EMAIL=hr@example.com
 
 ---
 
+## ⚡ Deployment / Running Locally
+
+* Deploy backend via AWS SAM, CDK, or Serverless Framework
+* Frontend can be served via CloudFront or any static site host
+* Ensure environment variables are configured
+
+---
+
 ## 🎯 Project Goals
 
-* Demonstrate backend fundamentals
+* Demonstrate backend and frontend fundamentals
 * Show practical AWS serverless usage
 * Practice clean code and validation
 * Build a realistic, interview-ready project
@@ -103,7 +112,7 @@ ADMIN_EMAIL=hr@example.com
 
 ## 🚀 Future Improvements
 
-* Authentication (Cognito)
+* Add authentication with Cognito
 * Application status updates
 * Admin dashboard
 * Unit tests
