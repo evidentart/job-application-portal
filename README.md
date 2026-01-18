@@ -1,4 +1,4 @@
-# Job Application Backend (AWS Serverless)
+# Job Application Portal (AWS Serverless)
 
 A simple serverless backend for submitting job applications, built with **Python**, **AWS Lambda**, **API Gateway**, **CloudFront**, **S3**, **DynamoDB**, and **SES**.
 
