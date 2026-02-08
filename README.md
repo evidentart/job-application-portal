@@ -119,6 +119,6 @@ ADMIN_EMAIL=hr@example.com
 
 ---
 
-## 👤 Author
+## Author
 
 Built by **Ali Akcin** as a learning and portfolio project.
