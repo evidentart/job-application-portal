@@ -6,7 +6,7 @@ This project is designed as an **entry-level full-stack serverless portfolio pro
 
 ---
 
-## ✨ Features
+## Features
 
 * Responsive frontend form for submitting applications
 * Submit job applications via REST API
@@ -19,7 +19,7 @@ This project is designed as an **entry-level full-stack serverless portfolio pro
 
 ---
 
-## 🧱 Architecture Overview
+## Architecture Overview
 
 * **CloudFront** – CDN and secure public entry point
 * **API Gateway** – HTTP API routing
@@ -30,7 +30,7 @@ This project is designed as an **entry-level full-stack serverless portfolio pro
 
 ---
 
-## 📥 API Request Example
+## API Request Example
 
 **POST** `/apply`
 
@@ -43,11 +43,11 @@ This project is designed as an **entry-level full-stack serverless portfolio pro
 }
 ```
 
-> ⚠️ Resume is **required** and must be a PDF under 2MB.
+> Resume is **required** and must be a PDF under 2MB.
 
 ---
 
-## 📤 API Response Example
+## API Response Example
 
 ```json
 {
@@ -58,7 +58,7 @@ This project is designed as an **entry-level full-stack serverless portfolio pro
 
 ---
 
-## ⚙️ Environment Variables
+## Environment Variables
 
 ```env
 REGION=us-east-2
@@ -69,7 +69,7 @@ ADMIN_EMAIL=hr@example.com
 
 ---
 
-## 🧪 Validation Rules
+## Validation Rules
 
 * Required fields: `name`, `email`, `position`, `resume_base64`
 * Email format validation
@@ -81,7 +81,7 @@ ADMIN_EMAIL=hr@example.com
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 * **Language:** Python
 * **Compute:** AWS Lambda
@@ -93,7 +93,7 @@ ADMIN_EMAIL=hr@example.com
 
 ---
 
-## ⚡ Deployment / Running Locally
+## Deployment / Running Locally
 
 * Deploy backend via AWS SAM, CDK, or Serverless Framework
 * Frontend can be served via CloudFront or any static site host
@@ -101,7 +101,7 @@ ADMIN_EMAIL=hr@example.com
 
 ---
 
-## 🎯 Project Goals
+## Project Goals
 
 * Demonstrate backend and frontend fundamentals
 * Show practical AWS serverless usage
@@ -110,7 +110,7 @@ ADMIN_EMAIL=hr@example.com
 
 ---
 
-## 🚀 Future Improvements
+## Future Improvements
 
 * Add authentication with Cognito
 * Application status updates
